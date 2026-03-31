@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include QMK_KEYBOARD_H
+#include "gpio.h"
 
 /* Keymap:
  * 
@@ -23,10 +24,34 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_P7,   KC_P8,   KC_P9,              // ROW4: 7, 8, 9
         KC_P4,   KC_P5,   KC_P6,              // ROW5: 4, 5, 6
         KC_P1,   KC_P2,   KC_P3,              // ROW6: 1, 2, 3
-        KC_P0,   KC_PDOT, KC_PENT,            // ROW7: 0, 00, PEX
-        KC_V                                  // ROW8: K_VOL
+        KC_P0,   KC_PDOT, KC_PENT             // ROW7: 0, 00, PEX
+        // KC_V                                  // ROW8: K_VOL
     )
 };
+
+static bool k_vol_pressed = false;
+
+void keyboard_post_init_user(void) {
+    debug_enable=true;
+    debug_matrix=true;
+    debug_keyboard=true;
+    
+    // Initialize K_VOL direct pin
+    gpio_set_pin_input_high(GP13); 
+}
+
+void matrix_scan_user(void) {
+    // Manually read GP13 so we don't break the standard matrix scan driver
+    bool pressed = !gpio_read_pin(GP13); 
+    if (pressed != k_vol_pressed) {
+        k_vol_pressed = pressed;
+        if (pressed) {
+            register_code(KC_V);
+        } else {
+            unregister_code(KC_V);
+        }
+    }
+}
 
 #if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {

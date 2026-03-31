@@ -3,9 +3,11 @@
     "keyboard_name": "tenki_unit",
     "maintainer": "Azalea",
     "bootloader": "rp2040",
-    "diode_direction": "COL2ROW",
+    "diode_direction": "ROW2COL",
     "features": {
         "bootmagic": true,
+        "console": true,
+        "command": true,
         "extrakey": true,
         "mousekey": true,
         "nkro": true,
@@ -13,17 +15,7 @@
     },
     "matrix_pins": {
         "cols": ["GP9", "GP10", "GP11", "GP12"],
-        "rows": ["GP2", "GP3", "GP4", "GP5", "GP6", "GP7", "GP8"],
-        "direct": [
-            [null, null, null, null],
-            [null, null, null, null],
-            [null, null, null, null],
-            [null, null, null, null],
-            [null, null, null, null],
-            [null, null, null, null],
-            [null, null, null, null],
-            ["GP13", null, null, null]
-        ]
+        "rows": ["GP2", "GP3", "GP4", "GP5", "GP6", "GP7", "GP8"]
     },
     "encoder": {
         "rotary": [
@@ -63,8 +55,7 @@
                 {"matrix": [5, 2], "x": 2, "y": 5},
                 {"matrix": [6, 0], "x": 0, "y": 6},
                 {"matrix": [6, 1], "x": 1, "y": 6},
-                {"matrix": [6, 2], "x": 2, "y": 6},
-                {"matrix": [7, 0], "x": 3, "y": 3}
+                {"matrix": [6, 2], "x": 2, "y": 6}
             ]
         }
     }
